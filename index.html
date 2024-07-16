@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--By Sarthak Raymondal-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="amongus.jpeg"
+    <title>Wordle Ripoff</title>
+    <style>
+        body{font-family: arial;}
+        .input1 {
+            height: 30px;
+            width: 100px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .wrong {
+          width: 40px;
+          height: 40px;
+          background-color: red;
+          border-radius: 10px;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 2px;
+
+        }
+        .partial {
+            width: 40px;
+          height: 40px;
+          background-color: yellow;
+          border-radius: 10px;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 2px;
+        }
+        .correct {
+            width: 40px;
+          height: 40px;
+          background-color: green;
+          border-radius: 10px;
+          color:white;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 2px;
+        }
+        .md {
+            display: flex;
+            margin-bottom: 5px;
+        }
+        .class-1 {
+            font-family: Arial;
+        }
+    </style>
+</head>
+<body id="body">
+    <a>Made by Sarthak Raymondal.Original by </a><a href="https://www.nytimes.com/games/wordle/index.html">Wordle.com</a>
+    <h1>Wordle ripoff(all small letters)</h1>
+    <div id="main">
+    <input type="text" maxlength="4" class="input1" id="tb1" placeholder="Word">
+    <br><br><button onclick="check1()">Predict</button>
+    <br><br>
+    </div>
+    <a id="win">Win:</a><br><a id="lost">Lost:</a><br><a id="games">Games</a>
+    <br><a id="aaaa">Attempts left:</a><br>
+    <a><span style="color:green">Green:</span>Letter right spot<br><span style="color: darkgoldenrod;">Yellow:</span>Letter present but not in position(if a word has the letter that u predicted twice like e.g:Oringinal word=Peak,Your prediction= Peep then the 2nd 'p' will show yellow)<br><span style="color:red">Red:</span>Letter not present</a><br>
+    <a id="hints" style="display: none;">Hint</a>
+    <div id="list1">
+           
+    </div>
+    <br><br>
+    <a href="#" onclick="alert('Thumbail pic:www.buytshirtdesigns.net/(esidesigns)\nRest:By me')">Credit</a><br>
+    <a>I'm still begineer,tell me if any issue happens.I could add fix some more bugs but it's midnight and I'm lazy,so yeah!! </a><a href="mailto:Raymondal.sarthak@outlook.com"> Email me</a>
+    <script>
+        if(localStorage.win === "NaN") {
+            localStorage.win = 1
+        }
+        if(localStorage.lost === "NaN") {
+            localStorage.lost = 1
+        }
+        if(localStorage.game === "NaN") {
+            localStorage.game = 1
+        }
+        var game0 = localStorage.game
+        var los0 = localStorage.lost;
+        var win0 = localStorage.win;
+        var game1 = parseInt(game0)
+        var los1 = parseInt(los0)
+        var win1 = parseInt(win0)
+        document.getElementById("win").innerHTML = "Win:" + win1;
+        document.getElementById("lost").innerHTML = "Lost:" + los1;
+        document.getElementById("games").innerHTML = "Games:" + game1;
+        var attempts = 8
+        document.getElementById("aaaa").innerHTML = "Attempts left:" + (attempts-1);
+        aa = 0
+        var ap = "false";
+        const cpw = [];
+        const cw = []
+        const flw = [
+    "able", "acid", "ages", "aide", "airy",
+    "aqua", "arts", "bake", "ball", "band",
+    "bark", "beam", "bend", "bill", "bird",
+    "bold", "book", "bowl", "cake", "call",
+    "care", "cart", "chat", "clip", "cold",
+    "cook", "cool", "cure", "dare", "dark",
+    "dash", "deck", "deep", "done", "drop",
+    "edge", "edit", "emit", "even", "fair",
+    "fame", "fast", "find", "fish", "flag",
+    "flat", "flow", "foam", "fork", "game",
+    "gift", "give", "good", "half", "hard",
+    "heal", "hold", "home", "hope", "idea",
+    "iron", "joke", "jump", "keen", "kind",
+    "lake", "lamp", "late", "like", "line",
+    "live", "look", "loop", "made", "main",
+    "mild", "mood", "mute", "need", "note",
+    "oval", "path", "play", "real", "rest",
+    "rich", "rock", "rule", "rush", "sand",
+    "seek", "ship", "shop", "slow", "snap",
+    "soft", "spin", "star", "test", "tide",
+    "tune", "vary", "vote", "wave", "wish",
+    "wood", "work", "yard", "zone", "zest"
+];
+var word = flw[Math.floor((Math.random() * 100) + 1)];
+function check1() {
+     var text = document.getElementById("tb1").value;
+     var cts = String(text);
+     if(cts.length < 4) {
+        alert("Sorry, this word has " + cts.length + " letter.Please write a 4 letter word")
+     }
+     else {
+        f1();
+     }
+     function f1() {
+        l1 = cts.charAt(0)
+        l2 = word.charAt(0)
+        var md = document.createElement("div")
+        aa += 1
+        md.className = "md"
+        md.id = "md" + aa
+        document.getElementById("list1").appendChild(md)
+        if(l1 === l2) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(0)
+            a.className = "correct"
+            document.getElementById("md" + aa).appendChild(a)
+
+        }
+        else {
+          partial = 0
+          abc = word.charAt(0)
+          if(abc === cts.charAt(0)) {
+            partial = 1
+
+          }
+          abc = word.charAt(1)
+          if(abc === cts.charAt(0)) {
+            partial = 1
+
+          }
+          abc = word.charAt(2)
+          if(abc === cts.charAt(0)) {
+            partial = 1
+
+          }
+          abc = word.charAt(3)
+          if(abc === cts.charAt(0)) {
+            partial = 1
+
+          }
+          if(partial === 1) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(0)
+            a.className = "partial"
+            document.getElementById("md" + aa).appendChild(a)
+          }
+          else {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(0)
+            a.className = "wrong"
+            document.getElementById("md" + aa).appendChild(a)            
+          }
+        }
+        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        l1 = cts.charAt(1)
+        l2 = word.charAt(1)
+        if(l1 === l2) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(1)
+            a.className = "correct"
+            document.getElementById("md" + aa).appendChild(a)
+
+        }
+        else {
+          partial = 0
+          abc = word.charAt(0)
+          if(abc === cts.charAt(1)) {
+            partial = 1
+
+          }
+          abc = word.charAt(1)
+          if(abc === cts.charAt(1)) {
+            partial = 1
+
+          }
+          abc = word.charAt(2)
+          if(abc === cts.charAt(1)) {
+            partial = 1
+
+          }
+          abc = word.charAt(3)
+          if(abc === cts.charAt(1)) {
+            partial = 1
+
+          }
+          if(partial === 1) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(1)
+            a.className = "partial"
+            document.getElementById("md" + aa).appendChild(a)
+          }
+          else {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(1)
+            a.className = "wrong"
+            document.getElementById("md" + aa).appendChild(a)            
+          }
+        }
+        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        l1 = cts.charAt(2)
+        l2 = word.charAt(2)
+        if(l1 === l2) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(2)
+            a.className = "correct"
+            document.getElementById("md" + aa).appendChild(a)
+
+        }
+        else {
+          partial = 0
+          abc = word.charAt(0)
+          if(abc === cts.charAt(2)) {
+            partial = 1
+
+          }
+          abc = word.charAt(1)
+          if(abc === cts.charAt(2)) {
+            partial = 1
+
+          }
+          abc = word.charAt(2)
+          if(abc === cts.charAt(2)) {
+            partial = 1
+
+          }
+          abc = word.charAt(3)
+          if(abc === cts.charAt(2)) {
+            partial = 1
+
+          }
+          if(partial === 1) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(2)
+            a.className = "partial"
+            document.getElementById("md" + aa).appendChild(a)
+          }
+          else {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(2)
+            a.className = "wrong"
+            document.getElementById("md" + aa).appendChild(a)            
+          }
+        }
+        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        l1 = cts.charAt(3)
+        l2 = word.charAt(3)
+        if(l1 === l2) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(3)
+            a.className = "correct"
+            document.getElementById("md" + aa).appendChild(a)
+
+        }
+        else {
+          partial = 0
+          abc = word.charAt(0)
+          if(abc === cts.charAt(3)) {
+            partial = 1
+
+          }
+          abc = word.charAt(1)
+          if(abc === cts.charAt(3)) {
+            partial = 1
+
+          }
+          abc = word.charAt(2)
+          if(abc === cts.charAt(3)) {
+            partial = 1
+
+          }
+          abc = word.charAt(3)
+          if(abc === cts.charAt(3)) {
+            partial = 1
+
+          }
+          if(partial === 1) {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(3)
+            a.className = "partial"
+            document.getElementById("md" + aa).appendChild(a)
+          }
+          else {
+            var a = document.createElement("div")
+            a.innerHTML = cts.charAt(3)
+            a.className = "wrong"
+            document.getElementById("md" + aa).appendChild(a)            
+          }
+        }
+        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        if(word === cts) {
+            document.getElementById("main").style.display = "none"
+            alert("Congrats!!You've passed")
+            document.getElementById("aaaa").innerHTML = "OPP!!!You got it!!!🗿"
+            win1 +=1
+            localStorage.win = win1
+            game1 += 1
+            localStorage.game = game1
+                            //aaaaaaaaaaaaaaaa
+                            document.getElementById("win").innerHTML = "Win:" + win1;
+        document.getElementById("lost").innerHTML = "Lost:" + los1;
+        document.getElementById("games").innerHTML = "Games:" + game1; 
+        }
+        else {
+            document.getElementById("aaaa").innerHTML = "Attempts left:" + (attempts-1)
+            attempts -= 1
+            if(attempts === 0) {
+                document.getElementById("main").style.display = "none"
+                alert("Opps!!You failed🗿")      
+                document.getElementById("aaaa").innerHTML = "Opps!!You failed🗿.The word was: " + word
+                los1 +=1
+                localStorage.lost = los1
+                game1 += 1
+                localStorage.game = game1  
+                //aaaaaaaaaaaaaaaa
+                document.getElementById("win").innerHTML = "Win:" + win1;
+        document.getElementById("lost").innerHTML = "Lost:" + los1;
+        document.getElementById("games").innerHTML = "Games:" + game1;     
+            }
+            if(attempts === 3) {
+                document.getElementById("hints").style.display = "block";
+                a1l = word.charAt(Math.floor((Math.random() * 3) + 0))
+                a2l = word.charAt(Math.floor((Math.random() * 3) + 0))
+                document.getElementById("hints").innerHTML = "Hint(both letters can be same too🗿):Here are two letters from the word:" + a1l + "," + a2l;
+            }
+        }
+    }
+}
+    </script>
+</body>
+</html>
