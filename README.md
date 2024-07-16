@@ -1,6 +1,6 @@
 # Wordle-ripoff
 This is a wordle ripoff
-##Made by:
+## Made by:
 Sarthak
-###For:
+### For:
 fun
